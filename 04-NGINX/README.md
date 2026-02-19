@@ -76,8 +76,6 @@ Número máximo de conexiones simultáneas por worker.
 
 Ejemplo:
 ```
-nginx
-Copiar código
 events {
     worker_connections 1024;
 }
