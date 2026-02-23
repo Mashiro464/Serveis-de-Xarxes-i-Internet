@@ -46,3 +46,20 @@ Como parte de la investigación de seguridad en servidores de correo, se han con
 
 ## 📈 Conclusión
 La integración de ClamAV con Postfix a través de la interfaz Milter proporciona una defensa robusta y eficiente. El éxito de este laboratorio demuestra que una configuración correcta de los parámetros de rechazo (`OnInfected Reject`) es fundamental para mantener la integridad de los buzones de correo.
+
+## 🛠️ Herramienta de Auditoría: Swaks (Swiss Army Knife for SMTP)
+
+Para las pruebas de penetración y verificación de seguridad, se ha utilizado **Swaks**, una herramienta de línea de comandos extremadamente flexible para probar servidores SMTP.
+
+### ¿Por qué Swaks?
+A diferencia de un cliente de correo convencional (como Outlook o Thunderbird), Swaks permite:
+* **Forzar el cuerpo del mensaje**: Introducir manualmente la cadena EICAR sin que un antivirus local lo bloquee antes de enviarlo.
+* **Simulación de protocolos**: Probar diferentes etapas de la negociación SMTP (EHLO, MAIL FROM, RCPT TO, DATA).
+* **Depuración (Debug)**: Ver las respuestas exactas del servidor (códigos 250, 451, 550) en tiempo real.
+
+### Comando utilizado en el laboratorio:
+```bash
+swaks --to conesa@ifp-GDC \
+      --server 10.10.10.10 \
+      --body 'X5O!P%@AP[4\PZX54(P^)7CC)7}$EICAR-STANDARD-ANTIVIRUS-TEST-FILE!$H+H*' \
+      --header "Subject: Test de Seguridad Antivirus"```
