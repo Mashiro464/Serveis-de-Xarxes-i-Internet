@@ -29,6 +29,7 @@ reconocen como amenaza para poder hacer pruebas.
 swaks --to conesa@ifp-GDC       --server 10.10.10.10       --body 'X5O!P%@AP[4\PZX54(P^)7CC)7}$EICAR-STANDARD-ANTIVIRUS-TEST-FILE!$H+H*'
 ```
 <img width="901" height="574" alt="image" src="https://github.com/user-attachments/assets/1ce2127f-a8f2-46f4-8a28-4f65979acf8c" />
+
 ### ✅ Resultado (¡Éxito!)
 
 El servidor respondió con:
