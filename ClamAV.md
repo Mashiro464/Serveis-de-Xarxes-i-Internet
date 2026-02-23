@@ -108,3 +108,53 @@ El uso de un **Milter** permite proteger el sistema en tiempo real y
 aplicar una política estricta:\
 👉 Si el servidor no está seguro de que el correo está limpio,
 simplemente lo rechaza.
+
+# 📋 Preguntas y Respuestas -- Postfix + ClamAV
+
+------------------------------------------------------------------------
+
+## 1️⃣ ¿Qué es ClamAV y qué detecta?
+
+Es un antivirus de código abierto para Linux.\
+Detecta virus, troyanos y malware en los archivos adjuntos (como el test
+EICAR que usamos).
+
+------------------------------------------------------------------------
+
+## 2️⃣ ¿Por qué no se integra directo y qué usa de puente?
+
+Porque hablan "idiomas" distintos (SMTP vs Escaneo).\
+Usan un puente llamado **Milter** (en este caso, *clamav-milter*).
+
+------------------------------------------------------------------------
+
+## 3️⃣ ¿Qué hace clamav-milter?
+
+Actúa como un filtro en tiempo real: recibe el correo de Postfix, lo
+pasa al antivirus y le da el veredicto antes de que el correo se guarde.
+
+------------------------------------------------------------------------
+
+## 4️⃣ ¿Qué pasa si detecta un virus?
+
+Según nuestra configuración (`OnInfected Reject`), el servidor rechaza
+el correo inmediatamente y devuelve un error **550**, impidiendo que el
+virus entre.
+
+------------------------------------------------------------------------
+
+## 5️⃣ ¿Qué directivas se usan en Postfix?
+
+-   `smtpd_milters` → Indica dónde está el antivirus.
+-   `milter_default_action` → Define qué hacer si el antivirus falla
+    (configurado en `tempfail` para bloquear por seguridad).
+
+------------------------------------------------------------------------
+
+## 6️⃣ ¿Limitaciones y complementos?
+
+ClamAV es limitado detectando **Spam** y **Phishing**.\
+Se complementa con:
+
+-   **SpamAssassin / Rspamd** → Para detección de spam.
+-   **SPF / DKIM** → Para evitar suplantación de identidad (spoofing).
