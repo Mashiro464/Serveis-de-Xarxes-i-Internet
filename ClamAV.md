@@ -52,11 +52,11 @@ aceptar correos:
 milter_default_action = tempfail
 smtpd_milters = inet:127.0.0.1:7357
 ```
-
+<img width="688" height="744" alt="image" src="https://github.com/user-attachments/assets/9d5a53ea-75e8-4666-8ff5-ab4a794f212a" />
 -   `milter_default_action = tempfail` → Si el antivirus falla, el
     correo no entra (modo seguro).
 -   `smtpd_milters` → Dirección y puerto donde escucha ClamAV.
-<img width="688" height="744" alt="image" src="https://github.com/user-attachments/assets/9d5a53ea-75e8-4666-8ff5-ab4a794f212a" />
+
 
 ------------------------------------------------------------------------
 
@@ -70,7 +70,7 @@ Configuración importante:
 -   `OnInfected Reject` → Si hay virus, se rechaza directamente.
 -   `MilterSocket inet:7357@127.0.0.1` → Comunicación por puerto TCP
     para evitar problemas de permisos (AppArmor).
-
+<img width="688" height="744" alt="image" src="https://github.com/user-attachments/assets/9d5a53ea-75e8-4666-8ff5-ab4a794f212a" />
 ------------------------------------------------------------------------
 
 ## 🔍 Cosas que he aprendido
@@ -81,7 +81,6 @@ Configuración importante:
 -   **SPF y DKIM** → Son "sellos digitales" que validan que el servidor
     es legítimo.
 -   **Fail2Ban** → Protege contra ataques de fuerza bruta.
-<img width="575" height="402" alt="image" src="https://github.com/user-attachments/assets/47e639b7-9fa5-44b9-9e4e-098c93e90396" />
 
 ------------------------------------------------------------------------
 
