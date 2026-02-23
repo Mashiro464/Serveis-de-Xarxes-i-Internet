@@ -1,65 +1,140 @@
-# 🛡️ Servidor de Correo Seguro con Postfix y ClamAV (Lab)
+# 🛡️ Servidor de Correo Seguro: Postfix + ClamAV (Lab)
 
-Este proyecto documenta la implementación y securización de un servidor de correo basado en **Postfix** sobre Ubuntu, integrando un sistema de escaneo de malware en tiempo real mediante **ClamAV-Milter**.
+Este repositorio contiene la documentación técnica, archivos de
+configuración y pruebas de concepto para la implementación de un sistema
+de correo seguro sobre Ubuntu Server 22.04/24.04.
 
-## 🚀 Escenario de la Prueba
-Para verificar la seguridad del servidor, se ha utilizado la herramienta `swaks` para enviar un mensaje que contiene la firma de virus **EICAR**. El objetivo es que el servidor identifique la amenaza y rechace la conexión antes de que el correo sea procesado.
+------------------------------------------------------------------------
 
-### Resultado Exitoso
-Al realizar el test, el servidor responde con un código de rechazo, confirmando que el filtro funciona correctamente:
-`<- 550 5.7.1 Command rejected`
+## 📖 Introducción
 
----
+El objetivo de este proyecto es mitigar la entrada de software malicioso
+en una infraestructura corporativa utilizando una arquitectura de
+filtrado **Milter (Mail Filter)**.
 
-## 🛠️ Configuración del Sistema
+En lugar de escanear el buzón una vez recibido el correo, el sistema
+intercepta la conexión durante la sesión SMTP, analizando el contenido
+en memoria y rechazando amenazas proactivamente.
 
-### 1. Postfix (`/etc/postfix/main.cf`)
-Se configuró Postfix para actuar como un gateway que consulta al antivirus mediante un socket:
-* **milter_default_action = tempfail**: Si el antivirus no está disponible, el correo se bloquea temporalmente (fail-closed).
-* **smtpd_milters**: Se redirige el flujo de datos al puerto o socket del escáner.
+------------------------------------------------------------------------
 
-### 2. ClamAV Milter (`/etc/clamav/clamav-milter.conf`)
-Los parámetros clave para garantizar el bloqueo fueron:
-* `OnInfected Reject`: Ordena el rechazo inmediato del mensaje si se detecta un virus.
-* `MilterSocket`: Configurado para permitir la comunicación fluida con Postfix.
-* `OnFail Defer`: Protege el sistema en caso de caída del servicio de escaneo.
+## 🚀 Escenario de la Prueba: El Test EICAR
 
----
+Para validar la eficacia del sistema, se ha utilizado el archivo **EICAR
+(European Institute for Computer Antivirus Research)**.\
+No es un virus real, sino una cadena de texto estándar que todos los
+antivirus del mundo deben identificar como una amenaza crítica.
 
-## 🔍 Investigación de Seguridad (Hardening)
+### 🔎 Análisis del Flujo de Bloqueo
 
-Como parte de la investigación de seguridad en servidores de correo, se han considerado los siguientes puntos para un entorno de producción:
+1.  **Handshake**: El cliente inicia la sesión.
+2.  **Transmisión de Datos**: El cliente envía la cadena EICAR mediante
+    el comando `DATA`.
+3.  **Intercepción Milter**: Postfix pausa la entrega y envía el flujo
+    de datos a ClamAV a través de un socket.
+4.  **Veredicto**: ClamAV identifica la firma y devuelve una señal de
+    *Reject*.
+5.  **Respuesta SMTP**: Postfix corta la conexión con el código
+    `550 5.7.1 Command rejected`.
 
-1.  **Detección en tiempo real (SMTP-level scanning)**:
-    El escaneo ocurre durante la fase `DATA` de la sesión SMTP. Esto evita que el malware llegue a tocar el sistema de archivos del usuario final, cortando la amenaza en el perímetro.
+------------------------------------------------------------------------
 
-2.  **Arquitectura de Red**:
-    En este laboratorio se ha optimizado la comunicación mediante Sockets. Para entornos de alta carga, se recomienda la migración a **Sockets TCP** para separar el servicio de antivirus en una máquina dedicada (Scalability).
+## 🛠️ Configuración Profunda del Sistema
 
-3.  **Capas de Defensa Adicionales**:
-    * **SpamAssassin / Rspamd**: Para filtrar no solo virus, sino también phishing y correo basura basado en reputación.
-    * **Implementación de SPF, DKIM y DMARC**: Vital para prevenir el *spoofing* y asegurar que los correos enviados desde nuestro dominio `ifp-GDC` sean legítimos.
-    * **Fail2Ban**: Implementado para bloquear ataques de fuerza bruta contra el puerto 25 (SMTP) y el puerto 587 (Submission).
+### 1️⃣ Postfix (`/etc/postfix/main.cf`)
+
+Se aplicaron directivas de endurecimiento para asegurar que ningún
+correo ignore el escáner:
+
+``` conf
+# Configuración Milter
+smtpd_milters = inet:127.0.0.1:7357
+non_smtpd_milters = inet:127.0.0.1:7357
+
+# Acción por defecto: Fail-Closed
+# Si el milter cae, no se aceptan correos (Seguridad Máxima)
+milter_default_action = tempfail
+
+# Protocolo de comunicación Milter
+milter_protocol = 6
+```
+
+------------------------------------------------------------------------
+
+### 2️⃣ ClamAV Milter (`/etc/clamav/clamav-milter.conf`)
+
+Configuración clave del motor de escaneo:
+
+-   `OnInfected Reject` → El servidor no pone en cuarentena, rechaza
+    directamente la conexión.
+-   `MilterSocket inet:7357@127.0.0.1` → Uso de socket TCP para evitar
+    problemas de permisos (AppArmor).
+
+------------------------------------------------------------------------
+
+## 🛠️ Auditoría con Swaks (Swiss Army Knife for SMTP)
+
+Swaks permite comunicarse directamente con el servidor SMTP para
+realizar pruebas controladas.
+
+### 🔥 Simulación de Ataque
+
+``` bash
+swaks --to conesa@ifp-GDC       --server 10.10.10.10       --body 'X5O!P%@AP[4\PZX54(P^)7CC)7}$EICAR-STANDARD-ANTIVIRUS-TEST-FILE!$H+H*'
+```
+
+------------------------------------------------------------------------
+
+## 📊 Tabla de Códigos Obtenidos
+
+  Fase          Código      Resultado
+  ------------- ----------- -----------------------------
+  Conexión      220         Servidor listo
+  Remitente     250 2.1.0   Dirección aceptada
+  Envío Virus   550 5.7.1   Bloqueo exitoso por malware
+
+------------------------------------------------------------------------
+
+## 🔍 Investigación de Hardening y Escalabilidad
+
+En un entorno de producción real, este laboratorio se expandiría con:
+
+### A️⃣ Capa de Reputación (Rspamd)
+
+-   **Greylisting** → Retrasa correos de servidores desconocidos.
+-   **Bayes** → Aprende patrones de spam.
+
+### B️⃣ Autenticación de Dominio (SPF, DKIM, DMARC)
+
+-   **SPF** → Lista de IPs autorizadas.
+-   **DKIM** → Firma criptográfica del mensaje.
+-   **DMARC** → Política de acción si fallan SPF o DKIM.
+
+------------------------------------------------------------------------
+
+## 📋 Guía de Resolución de Problemas (Troubleshooting)
+
+  ----------------------------------------------------------------------------
+  Problema                   Causa               Solución
+  -------------------------- ------------------- -----------------------------
+  Error 451 (Service         Permisos en socket  Migración a socket TCP (7357)
+  Unavailable)               Unix                
+
+  Correo aceptado (250 OK)   OnInfected en       Cambiar a Reject
+                             Quarantine          
+
+  Logs                       Falta de monitoreo  Usar
+                                                 `tail -f /var/log/mail.log` o
+                                                 `journalctl`
+  ----------------------------------------------------------------------------
 <img width="901" height="574" alt="image" src="https://github.com/user-attachments/assets/1ce2127f-a8f2-46f4-8a28-4f65979acf8c" />
-
----
+------------------------------------------------------------------------
 
 ## 📈 Conclusión
-La integración de ClamAV con Postfix a través de la interfaz Milter proporciona una defensa robusta y eficiente. El éxito de este laboratorio demuestra que una configuración correcta de los parámetros de rechazo (`OnInfected Reject`) es fundamental para mantener la integridad de los buzones de correo.
 
-## 🛠️ Herramienta de Auditoría: Swaks (Swiss Army Knife for SMTP)
+La implementación demuestra que la seguridad perimetral del correo
+depende de la correcta orquestación entre el **MTA (Postfix)** y el
+**Filtro (ClamAV)**.
 
-Para las pruebas de penetración y verificación de seguridad, se ha utilizado **Swaks**, una herramienta de línea de comandos extremadamente flexible para probar servidores SMTP.
-
-### ¿Por qué Swaks?
-A diferencia de un cliente de correo convencional (como Outlook o Thunderbird), Swaks permite:
-* **Forzar el cuerpo del mensaje**: Introducir manualmente la cadena EICAR sin que un antivirus local lo bloquee antes de enviarlo.
-* **Simulación de protocolos**: Probar diferentes etapas de la negociación SMTP (EHLO, MAIL FROM, RCPT TO, DATA).
-* **Depuración (Debug)**: Ver las respuestas exactas del servidor (códigos 250, 451, 550) en tiempo real.
-
-### Comando utilizado en el laboratorio:
-```bash
-swaks --to conesa@ifp-GDC \
-      --server 10.10.10.10 \
-      --body 'X5O!P%@AP[4\PZX54(P^)7CC)7}$EICAR-STANDARD-ANTIVIRUS-TEST-FILE!$H+H*' \
-      --header "Subject: Test de Seguridad Antivirus"```
+La configuración **fail-closed** garantiza que, ante cualquier fallo del
+sistema, la prioridad siempre sea la protección de la infraestructura.
