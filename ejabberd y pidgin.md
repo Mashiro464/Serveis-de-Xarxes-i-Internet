@@ -52,10 +52,10 @@ sudo systemctl restart ejabberd
 
 ``` bash
 # Registrar cuenta de administrador
-sudo ejabberdctl register admin pato.pato.local 123456
+sudo ejabberdctl register admin pato.pato.local ******
 
 # Registrar cuenta de usuario estándar
-sudo ejabberdctl register punky pato.pato.local 123456
+sudo ejabberdctl register punky pato.pato.local ******
 ```
 
 ------------------------------------------------------------------------
@@ -96,3 +96,8 @@ Añadir:
 
 -   URL: http://10.10.10.10:5280/admin\
 -   Usuario: `admin@pato.pato.local`
+
+<img width="423" height="426" alt="image" src="https://github.com/user-attachments/assets/c7cfdff4-01c8-47db-ae11-4077ed3e63e7" />
+
+<img width="425" height="429" alt="image" src="https://github.com/user-attachments/assets/584cd1d4-8ad3-4b1f-bd57-58a5895252e8" />
+
