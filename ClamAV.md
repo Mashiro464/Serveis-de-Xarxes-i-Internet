@@ -52,7 +52,8 @@ aceptar correos:
 milter_default_action = tempfail
 smtpd_milters = inet:127.0.0.1:7357
 ```
-<img width="688" height="744" alt="image" src="https://github.com/user-attachments/assets/9d5a53ea-75e8-4666-8ff5-ab4a794f212a" />
+<img width="588" height="410" alt="image" src="https://github.com/user-attachments/assets/dbd08c7b-0674-4fd4-82fc-ecf3e9aa6f64" />
+
 -   `milter_default_action = tempfail` → Si el antivirus falla, el
     correo no entra (modo seguro).
 -   `smtpd_milters` → Dirección y puerto donde escucha ClamAV.
