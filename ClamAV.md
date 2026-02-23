@@ -40,6 +40,7 @@ Como parte de la investigación de seguridad en servidores de correo, se han con
     * **SpamAssassin / Rspamd**: Para filtrar no solo virus, sino también phishing y correo basura basado en reputación.
     * **Implementación de SPF, DKIM y DMARC**: Vital para prevenir el *spoofing* y asegurar que los correos enviados desde nuestro dominio `ifp-GDC` sean legítimos.
     * **Fail2Ban**: Implementado para bloquear ataques de fuerza bruta contra el puerto 25 (SMTP) y el puerto 587 (Submission).
+<img width="901" height="574" alt="image" src="https://github.com/user-attachments/assets/1ce2127f-a8f2-46f4-8a28-4f65979acf8c" />
 
 ---
 
