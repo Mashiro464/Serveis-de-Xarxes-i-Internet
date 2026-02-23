@@ -1,140 +1,109 @@
-# 🛡️ Servidor de Correo Seguro: Postfix + ClamAV (Lab)
+# 🛡️ Mi Servidor de Correo Seguro (Reto Postfix + ClamAV)
 
-Este repositorio contiene la documentación técnica, archivos de
-configuración y pruebas de concepto para la implementación de un sistema
-de correo seguro sobre Ubuntu Server 22.04/24.04.
-
-------------------------------------------------------------------------
-
-## 📖 Introducción
-
-El objetivo de este proyecto es mitigar la entrada de software malicioso
-en una infraestructura corporativa utilizando una arquitectura de
-filtrado **Milter (Mail Filter)**.
-
-En lugar de escanear el buzón una vez recibido el correo, el sistema
-intercepta la conexión durante la sesión SMTP, analizando el contenido
-en memoria y rechazando amenazas proactivamente.
+Este proyecto es el resultado de mi práctica configurando un servidor de
+correo en Ubuntu.\
+La idea era no solo que el servidor enviara y recibiera correos, sino
+que fuera capaz de detectar virus y borrarlos antes de que llegaran a mi
+bandeja de entrada.
 
 ------------------------------------------------------------------------
 
-## 🚀 Escenario de la Prueba: El Test EICAR
+## 🚀 ¿Qué es lo que he montado?
 
-Para validar la eficacia del sistema, se ha utilizado el archivo **EICAR
-(European Institute for Computer Antivirus Research)**.\
-No es un virus real, sino una cadena de texto estándar que todos los
-antivirus del mundo deben identificar como una amenaza crítica.
-
-### 🔎 Análisis del Flujo de Bloqueo
-
-1.  **Handshake**: El cliente inicia la sesión.
-2.  **Transmisión de Datos**: El cliente envía la cadena EICAR mediante
-    el comando `DATA`.
-3.  **Intercepción Milter**: Postfix pausa la entrega y envía el flujo
-    de datos a ClamAV a través de un socket.
-4.  **Veredicto**: ClamAV identifica la firma y devuelve una señal de
-    *Reject*.
-5.  **Respuesta SMTP**: Postfix corta la conexión con el código
-    `550 5.7.1 Command rejected`.
+He usado **Postfix** (el que mueve los correos) y lo he conectado con
+**ClamAV** (el antivirus).\
+La clave de todo es el **Milter**, que hace que Postfix le pase el
+correo al antivirus *"en el aire"* para que lo revise en tiempo real.
 
 ------------------------------------------------------------------------
 
-## 🛠️ Configuración Profunda del Sistema
+## 🧪 La prueba de fuego: ¿Funciona?
 
-### 1️⃣ Postfix (`/etc/postfix/main.cf`)
+Para no usar un virus real, utilicé el test **EICAR**.\
+Es un texto que no hace nada malo, pero que todos los antivirus
+reconocen como amenaza para poder hacer pruebas.
 
-Se aplicaron directivas de endurecimiento para asegurar que ningún
-correo ignore el escáner:
-
-``` conf
-# Configuración Milter
-smtpd_milters = inet:127.0.0.1:7357
-non_smtpd_milters = inet:127.0.0.1:7357
-
-# Acción por defecto: Fail-Closed
-# Si el milter cae, no se aceptan correos (Seguridad Máxima)
-milter_default_action = tempfail
-
-# Protocolo de comunicación Milter
-milter_protocol = 6
-```
-
-------------------------------------------------------------------------
-
-### 2️⃣ ClamAV Milter (`/etc/clamav/clamav-milter.conf`)
-
-Configuración clave del motor de escaneo:
-
--   `OnInfected Reject` → El servidor no pone en cuarentena, rechaza
-    directamente la conexión.
--   `MilterSocket inet:7357@127.0.0.1` → Uso de socket TCP para evitar
-    problemas de permisos (AppArmor).
-
-------------------------------------------------------------------------
-
-## 🛠️ Auditoría con Swaks (Swiss Army Knife for SMTP)
-
-Swaks permite comunicarse directamente con el servidor SMTP para
-realizar pruebas controladas.
-
-### 🔥 Simulación de Ataque
+### 🔥 Comando utilizado (Swaks)
 
 ``` bash
 swaks --to conesa@ifp-GDC       --server 10.10.10.10       --body 'X5O!P%@AP[4\PZX54(P^)7CC)7}$EICAR-STANDARD-ANTIVIRUS-TEST-FILE!$H+H*'
 ```
-
-------------------------------------------------------------------------
-
-## 📊 Tabla de Códigos Obtenidos
-
-  Fase          Código      Resultado
-  ------------- ----------- -----------------------------
-  Conexión      220         Servidor listo
-  Remitente     250 2.1.0   Dirección aceptada
-  Envío Virus   550 5.7.1   Bloqueo exitoso por malware
-
-------------------------------------------------------------------------
-
-## 🔍 Investigación de Hardening y Escalabilidad
-
-En un entorno de producción real, este laboratorio se expandiría con:
-
-### A️⃣ Capa de Reputación (Rspamd)
-
--   **Greylisting** → Retrasa correos de servidores desconocidos.
--   **Bayes** → Aprende patrones de spam.
-
-### B️⃣ Autenticación de Dominio (SPF, DKIM, DMARC)
-
--   **SPF** → Lista de IPs autorizadas.
--   **DKIM** → Firma criptográfica del mensaje.
--   **DMARC** → Política de acción si fallan SPF o DKIM.
-
-------------------------------------------------------------------------
-
-## 📋 Guía de Resolución de Problemas (Troubleshooting)
-
-  ----------------------------------------------------------------------------
-  Problema                   Causa               Solución
-  -------------------------- ------------------- -----------------------------
-  Error 451 (Service         Permisos en socket  Migración a socket TCP (7357)
-  Unavailable)               Unix                
-
-  Correo aceptado (250 OK)   OnInfected en       Cambiar a Reject
-                             Quarantine          
-
-  Logs                       Falta de monitoreo  Usar
-                                                 `tail -f /var/log/mail.log` o
-                                                 `journalctl`
-  ----------------------------------------------------------------------------
 <img width="901" height="574" alt="image" src="https://github.com/user-attachments/assets/1ce2127f-a8f2-46f4-8a28-4f65979acf8c" />
+### ✅ Resultado (¡Éxito!)
+
+El servidor respondió con:
+
+    <- 550 5.7.1 Command rejected
+
+Esto significa que el antivirus detectó la amenaza y el servidor rechazó
+el correo antes de que entrara.
+
+------------------------------------------------------------------------
+
+## 🛠️ Lo que tuve que configurar
+
+### 1️⃣ Postfix (`/etc/postfix/main.cf`)
+
+Añadí líneas para decirle a Postfix que consulte al antivirus antes de
+aceptar correos:
+
+``` conf
+milter_default_action = tempfail
+smtpd_milters = inet:127.0.0.1:7357
+```
+
+-   `milter_default_action = tempfail` → Si el antivirus falla, el
+    correo no entra (modo seguro).
+-   `smtpd_milters` → Dirección y puerto donde escucha ClamAV.
+<img width="688" height="744" alt="image" src="https://github.com/user-attachments/assets/9d5a53ea-75e8-4666-8ff5-ab4a794f212a" />
+
+------------------------------------------------------------------------
+
+### 2️⃣ ClamAV (`/etc/clamav/clamav-milter.conf`)
+
+Configuración importante:
+
+    OnInfected Reject
+    MilterSocket inet:7357@127.0.0.1
+
+-   `OnInfected Reject` → Si hay virus, se rechaza directamente.
+-   `MilterSocket inet:7357@127.0.0.1` → Comunicación por puerto TCP
+    para evitar problemas de permisos (AppArmor).
+
+------------------------------------------------------------------------
+
+## 🔍 Cosas que he aprendido
+
+-   **Escaneo en tiempo real** → El virus no llega a guardarse en disco.
+-   **No solo existen virus** → Para SPAM se usan herramientas como
+    SpamAssassin o Rspamd.
+-   **SPF y DKIM** → Son "sellos digitales" que validan que el servidor
+    es legítimo.
+-   **Fail2Ban** → Protege contra ataques de fuerza bruta.
+<img width="575" height="402" alt="image" src="https://github.com/user-attachments/assets/47e639b7-9fa5-44b9-9e4e-098c93e90396" />
+
+------------------------------------------------------------------------
+
+## 📋 Problemas que tuve (Troubleshooting)
+
+  ------------------------------------------------------------------------
+  Problema                  Causa                Solución
+  ------------------------- -------------------- -------------------------
+  Error 451                 Postfix no podía     Revisar permisos o usar
+                            hablar con ClamAV    socket TCP
+
+  Correo aceptado (250 OK)  OnInfected estaba en Cambiar a Reject
+                            cuarentena           
+  ------------------------------------------------------------------------
+
 ------------------------------------------------------------------------
 
 ## 📈 Conclusión
 
-La implementación demuestra que la seguridad perimetral del correo
-depende de la correcta orquestación entre el **MTA (Postfix)** y el
-**Filtro (ClamAV)**.
+Montar un servidor de correo es relativamente sencillo, pero hacerlo
+seguro es el verdadero reto.
 
-La configuración **fail-closed** garantiza que, ante cualquier fallo del
-sistema, la prioridad siempre sea la protección de la infraestructura.
+El uso de un **Milter** permite proteger el sistema en tiempo real y
+aplicar una política estricta:\
+👉 Si el servidor no está seguro de que el correo está limpio,
+simplemente lo rechaza.
