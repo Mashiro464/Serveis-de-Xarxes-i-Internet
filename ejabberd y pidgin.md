@@ -100,7 +100,6 @@ sudo systemctl status ejabberd
 Como quedo el servicio
 
 <img width="708" height="333" alt="image" src="https://github.com/user-attachments/assets/3cc106ec-5e37-40c3-bb96-d0439beb2e96" />
-<img width="708" height="333" alt="image" src="https://github.com/user-attachments/assets/3cc106ec-5e37-40c3-bb96-d0439beb2e96" />
 
 ------------------------------------------------------------------------
 
@@ -131,6 +130,11 @@ Añadir:
 <img width="406" height="35" alt="image" src="https://github.com/user-attachments/assets/59b31407-b20a-4765-bd2c-bc6c14902f6b" />
 
 #### Configuración en Pidgin
+
+1️⃣ Instalación de Pidgin
+```
+sudo apt install pidgin
+```
 
 -   Protocolo: XMPP\
 -   Usuario: `admin` o `punky`\
