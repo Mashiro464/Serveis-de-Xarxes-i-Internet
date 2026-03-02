@@ -95,7 +95,12 @@ Reiniciar servicio:
 
 ``` bash
 sudo systemctl restart ejabberd
+sudo systemctl status ejabberd
 ```
+Como quedo el servicio
+
+<img width="708" height="333" alt="image" src="https://github.com/user-attachments/assets/3cc106ec-5e37-40c3-bb96-d0439beb2e96" />
+<img width="708" height="333" alt="image" src="https://github.com/user-attachments/assets/3cc106ec-5e37-40c3-bb96-d0439beb2e96" />
 
 ------------------------------------------------------------------------
 
