@@ -37,7 +37,7 @@ Ejecutar:
 
 ``` sql
 CREATE DATABASE mattermost;
-CREATE USER mmuser WITH PASSWORD 'password123';
+CREATE USER mmuser WITH PASSWORD '***';
 GRANT ALL PRIVILEGES ON DATABASE mattermost TO mmuser;
 ALTER DATABASE mattermost OWNER TO mmuser;
 ```
