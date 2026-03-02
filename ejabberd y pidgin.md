@@ -159,7 +159,101 @@ sudo apt install pidgin
 -   URL: http://10.10.10.10:5280/admin\
 -   Usuario: `admin@pato.pato.local`
 
+------------------------------------------------------------------------
+
 <img width="423" height="426" alt="image" src="https://github.com/user-attachments/assets/c7cfdff4-01c8-47db-ae11-4077ed3e63e7" />
 
 <img width="425" height="429" alt="image" src="https://github.com/user-attachments/assets/584cd1d4-8ad3-4b1f-bd57-58a5895252e8" />
 
+------------------------------------------------------------------------
+
+# Arquitectura XMPP con Ejabberd
+
+## ¿Qué puertos se utilizan y para qué?
+
+En esta arquitectura XMPP con Ejabberd, intervienen principalmente los
+siguientes puertos:
+
+-   **Puerto 5222 (TCP):** Puerto estándar para comunicación
+    Cliente-Servidor (C2S).\
+    Lo utiliza Pidgin para conectarse a Ejabberd, autenticarse y
+    enviar/recibir mensajes en tiempo real.
+
+-   **Puerto 5280 (TCP):** Puerto del Panel de Administración Web.\
+    Permite acceder desde el navegador a:\
+    http://IP_SERVIDOR:5280/admin para gestionar usuarios y
+    estadísticas.
+
+------------------------------------------------------------------------
+
+## ¿Qué aspectos de la configuración son importantes?
+
+### 1️⃣ Definición del Dominio Lógico
+
+En /etc/ejabberd/ejabberd.yml es fundamental definir correctamente el
+apartado hosts\
+(ejemplo: "gunter" o "pato.pato.local").
+
+XMPP enruta los mensajes basándose en el dominio, no solo en la IP.
+
+### 2️⃣ Resolución DNS Local (/etc/hosts)
+
+Como no existe un DNS real en la red virtual, es necesario modificar el
+archivo /etc/hosts\
+en el cliente para asociar la IP del servidor con su nombre de dominio.
+
+### 3️⃣ Uso del JID Completo
+
+Es obligatorio usar el formato completo:
+
+usuario@dominio
+
+Ejemplo: usuario1@gunter
+
+Usar solo el nombre de usuario provoca errores de autenticación.
+
+### 4️⃣ Ajustes de Seguridad en el Cliente
+
+En Pidgin se debe configurar la seguridad como:
+
+"Usar cifrado si está disponible"
+
+Esto es necesario porque Ejabberd suele usar certificados autofirmados
+que pueden ser rechazados si se exige cifrado estricto.
+
+------------------------------------------------------------------------
+
+## ¿Qué incidencias técnicas se presentaron?
+
+### Error: DNS lookup failed: non-existing domain
+
+Problema:\
+Pidgin intentaba resolver el dominio usando DNS públicos de Internet.
+
+Solución:\
+Se configuró directamente la IP del servidor en el campo\
+"Servidor de conexión" en las opciones avanzadas de la cuenta.
+
+------------------------------------------------------------------------
+
+### Error: Necesita cifrado, pero no está disponible en este servidor
+
+Problema:\
+Pidgin intentaba establecer conexión TLS obligatoria.
+
+Solución:\
+Se cambió la opción de seguridad a\
+"Usar cifrado si está disponible" en la pestaña Avanzado.
+
+------------------------------------------------------------------------
+
+### Acceso denegado al Panel Web
+
+Problema:\
+Se intentaba acceder usando solo el nombre corto del administrador (ej.
+admin).
+
+Solución:\
+Se introdujo el JID completo en el login:
+
+admin@dominio
