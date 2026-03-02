@@ -139,9 +139,3 @@ Si supera el umbral (ej. 5.0), marca el correo como `[SPAM]`.
 host -t MX nombre-dominio.com
 ```
 
-------------------------------------------------------------------------
-
-## 📜 Nota Histórica
-
-El 9 de octubre se celebra el Día Mundial del Correo, conmemorando la
-creación de la Unión Postal Universal en 1874.
