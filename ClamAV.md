@@ -12,33 +12,33 @@ En este proyecto utilizamos **SSH (Secure Shell)** para la
 administración remota del servidor.
 
 El acceso se realiza mediante el **puerto 22**, que es el puerto
-estándar del protocolo SSH.\
+estándar del protocolo SSH.
 La conexión se realiza desde Windows usando **MobaXterm (MobaXtreme)**.
 
 ------------------------------------------------------------------------
 
 ## 🎯 Objetivos
 
--   Permitir acceso remoto seguro al servidor.\
--   Administrar el sistema desde otro equipo.\
+-   Permitir acceso remoto seguro al servidor.
+-   Administrar el sistema desde otro equipo.
 
 ------------------------------------------------------------------------
 
 ## 🌐 Conexión desde MobaXterm
 
-1.  Abrir **MobaXterm**.\
-2.  Ir a **Session → SSH**.\
+1.  Abrir **MobaXterm**.
+2.  Ir a **Session → SSH**.
 3.  Introducir:
-    -   IP del servidor\
-    -   Puerto: **22**\
-    -   Usuario\
+    -   IP del servidor
+    -   Puerto: **22**
+    -   Usuario
 4.  Conectar.
 
 ------------------------------------------------------------------------
 
 ## 🔒 Seguridad
 
--   Se utiliza el **puerto 22 (por defecto en SSH)**.\
+-   Se utiliza el **puerto 22 (por defecto en SSH)**.
 -   Se recomienda usar contraseñas seguras y limitar accesos
     innecesarios.
 
@@ -51,7 +51,7 @@ puerto 22**, utilizando **MobaXterm**, garantizando una conexión segura
 y cifrada.
 
 Este proyecto es el resultado de mi práctica configurando un servidor de
-correo en Ubuntu.\
+correo en Ubuntu.
 La idea era no solo que el servidor enviara y recibiera correos, sino
 que fuera capaz de detectar virus y borrarlos antes de que llegaran a mi
 bandeja de entrada.
@@ -61,7 +61,7 @@ bandeja de entrada.
 ## 🚀 ¿Qué es lo que he montado?
 
 He usado **Postfix** (el que mueve los correos) y lo he conectado con
-**ClamAV** (el antivirus).\
+**ClamAV** (el antivirus).
 La clave de todo es el **Milter**, que hace que Postfix le pase el
 correo al antivirus *"en el aire"* para que lo revise en tiempo real.
 
@@ -69,7 +69,7 @@ correo al antivirus *"en el aire"* para que lo revise en tiempo real.
 
 ## 🧪 La prueba de fuego: ¿Funciona?
 
-Para no usar un virus real, utilicé el test **EICAR**.\
+Para no usar un virus real, utilicé el test **EICAR**.
 Es un texto que no hace nada malo, pero que todos los antivirus
 reconocen como amenaza para poder hacer pruebas.
 
