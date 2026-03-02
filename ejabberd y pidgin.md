@@ -39,6 +39,7 @@ acl:
     user:
       - "admin@pato.pato.local"
 ```
+<img width="711" height="586" alt="image" src="https://github.com/user-attachments/assets/94208b38-43a6-4890-909d-d069b9284211" />
 
 Reiniciar servicio:
 
@@ -71,6 +72,7 @@ sudo nano /etc/hosts
 Añadir:
 
     10.10.10.10    pato.pato.local
+<img width="406" height="35" alt="image" src="https://github.com/user-attachments/assets/59b31407-b20a-4765-bd2c-bc6c14902f6b" />
 
 #### Configuración en Pidgin
 
