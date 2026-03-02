@@ -58,6 +58,7 @@ sudo ejabberdctl register admin pato.pato.local ******
 # Registrar cuenta de usuario estándar
 sudo ejabberdctl register punky pato.pato.local ******
 ```
+<img width="563" height="64" alt="image" src="https://github.com/user-attachments/assets/bf042fe4-423e-4429-8caa-d55856090d16" />
 
 ------------------------------------------------------------------------
 
