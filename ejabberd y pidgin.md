@@ -1,5 +1,55 @@
 # 🦆 Proyecto Chat Privado: Servidor Ejabberd (Pato)
 
+------------------------------------------------------------------------
+**Servidor:** Ubuntu 22.04 LTS\
+**IP Local:** 192.168.109.60\
+**Puerto:** 8065
+# 🔐 Configuración de SSH (Puerto 22)
+
+## 📌 Descripción
+
+En este proyecto utilizamos **SSH (Secure Shell)** para la
+administración remota del servidor.
+
+El acceso se realiza mediante el **puerto 22**, que es el puerto
+estándar del protocolo SSH.\
+La conexión se realiza desde Windows usando **MobaXterm (MobaXtreme)**.
+
+------------------------------------------------------------------------
+
+## 🎯 Objetivos
+
+-   Permitir acceso remoto seguro al servidor.\
+-   Administrar el sistema desde otro equipo.\
+
+------------------------------------------------------------------------
+
+## 🌐 Conexión desde MobaXterm
+
+1.  Abrir **MobaXterm**.\
+2.  Ir a **Session → SSH**.\
+3.  Introducir:
+    -   IP del servidor\
+    -   Puerto: **22**\
+    -   Usuario\
+4.  Conectar.
+
+------------------------------------------------------------------------
+
+## 🔒 Seguridad
+
+-   Se utiliza el **puerto 22 (por defecto en SSH)**.\
+-   Se recomienda usar contraseñas seguras y limitar accesos
+    innecesarios.
+
+------------------------------------------------------------------------
+
+## 📁 Resultado
+
+El servidor puede administrarse de forma remota mediante **SSH en el
+puerto 22**, utilizando **MobaXterm**, garantizando una conexión segura
+y cifrada.
+
 Este repositorio documenta la instalación, configuración y despliegue de
 un servidor de mensajería instantánea basado en el protocolo **XMPP**
 utilizando **Ejabberd**. El proyecto permite la comunicación segura
