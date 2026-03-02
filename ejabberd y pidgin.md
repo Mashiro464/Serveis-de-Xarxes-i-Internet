@@ -12,33 +12,33 @@ En este proyecto utilizamos **SSH (Secure Shell)** para la
 administración remota del servidor.
 
 El acceso se realiza mediante el **puerto 22**, que es el puerto
-estándar del protocolo SSH.\
+estándar del protocolo SSH.
 La conexión se realiza desde Windows usando **MobaXterm (MobaXtreme)**.
 
 ------------------------------------------------------------------------
 
 ## 🎯 Objetivos
 
--   Permitir acceso remoto seguro al servidor.\
--   Administrar el sistema desde otro equipo.\
+-   Permitir acceso remoto seguro al servidor.
+-   Administrar el sistema desde otro equipo.
 
 ------------------------------------------------------------------------
 
 ## 🌐 Conexión desde MobaXterm
 
-1.  Abrir **MobaXterm**.\
-2.  Ir a **Session → SSH**.\
+1.  Abrir **MobaXterm**.
+2.  Ir a **Session → SSH**.
 3.  Introducir:
-    -   IP del servidor\
-    -   Puerto: **22**\
-    -   Usuario\
+    -   IP del servidor
+    -   Puerto: **22**
+    -   Usuario
 4.  Conectar.
 
 ------------------------------------------------------------------------
 
 ## 🔒 Seguridad
 
--   Se utiliza el **puerto 22 (por defecto en SSH)**.\
+-   Se utiliza el **puerto 22 (por defecto en SSH)**.
 -   Se recomienda usar contraseñas seguras y limitar accesos
     innecesarios.
 
