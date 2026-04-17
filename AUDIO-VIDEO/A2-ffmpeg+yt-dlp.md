@@ -77,3 +77,44 @@
 
 
 # Parte Practica
+
+### Instalamos FFmpeg
+
+```bash
+sudo apt update && sudo apt install -y ffmpeg
+```
+
+### Descargar YT-DLP
+
+```bash
+sudo wget https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -O /usr/local/bin/yt-dlp
+```
+
+### Permisos de ejecución
+```bash
+sudo chmod a+rx /usr/local/bin/yt-dlp
+```
+<img width="884" height="783" alt="image" src="https://github.com/user-attachments/assets/63775b80-ce33-4e8a-836a-17a70e03842c" />
+
+
+## Paso 1 Ver formatos disponibles
+
+Antes de descargar siempre es bueno saber que opciones ofrece el servidor
+
+```bash
+yt-dlp -F https://www.youtube.com/watch?v=Aq5WXmQQooo
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
