@@ -108,26 +108,59 @@ yt-dlp -F https://www.youtube.com/watch?v=Aq5WXmQQooo
 
 ## Descargar el video
 
-Descargar el cideo con la mejor calidad de video y audio combinados
+Descargar el video con la mejor calidad de video y audio combinados
 
 ```Bash
 yt-dlp -f "bv+ba/b" https://www.youtube.com/watch?v=Aq5WXmQQooo -o "rick_video.mp4"
 ```
 
-<img width="906" height="279" alt="image" src="https://github.com/user-attachments/assets/6c17ca50-c5a6-4335-9c93-fea50d910c30" />
+<img width="998" height="333" alt="image" src="https://github.com/user-attachments/assets/e79277df-a809-41d4-b2f0-c997556aff48" />
+
+#### Convertir a MP4
+
+```Bash
+ffmpeg -i video_origen.webm -vcodec libx264 -acodec aac video_final.mp4
+```
+
+<img width="1839" height="804" alt="image" src="https://github.com/user-attachments/assets/a33aa22b-c517-4c3b-bcb1-96276d73f0c7" />
+
+#### Pasar el audio
+
+```Bash
+ffmpeg -i video_origen.webm -vn -acodec libmp3lame -ab 192k audio_final.mp3
+```
+
+<img width="1011" height="782" alt="image" src="https://github.com/user-attachments/assets/a90f6278-0e0f-4aa3-a22b-5db97d1ee06f" />
+
+#### Verificacion
+
+Una vez se finalizen los comandos se comprueba que todo esta en su lugar
+
+<img width="591" height="114" alt="image" src="https://github.com/user-attachments/assets/1a7a295c-2dd0-49e9-b9e3-21804e3899ed" />
+
 
 ## Convesion y Procesamiento con FFMPEG
 
 Ahora que tenemos el archivo `rick_video.webm` voy a convertirlo a otro formato y extraer el audio
 
+### Convertir a MKV ussando codec H.264
+
+```Bash
+ffmpeg -i video_final.mp4 -vcodec libx264 video_264.mkv
+```
+
+<img width="1015" height="778" alt="image" src="https://github.com/user-attachments/assets/7eba2d64-a2b4-48c3-887c-e79e4ee41b8b" />
+
+
 ### Convertir a MKV ussando codec H.265
 
+```Bash
+ffmpeg -i video_final.mp4 -vcodec libx265 video_265.mkv
+```
 
+<img width="1006" height="777" alt="image" src="https://github.com/user-attachments/assets/b5a321b0-cfc2-49b4-b421-77c1e6066fd0" />
 
-
-
-
-
+- Diferencia técnica: El H.265 es mas eficiente que ell H.264. El archivo de H.265 suele ser de menor tamaño pero tendra la misma calidad visual
 
 
 
