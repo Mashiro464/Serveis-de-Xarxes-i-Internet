@@ -105,6 +105,7 @@ Antes de descargar siempre es bueno saber que opciones ofrece el servidor
 yt-dlp -F https://www.youtube.com/watch?v=Aq5WXmQQooo
 ```
 
+<img width="1846" height="655" alt="image" src="https://github.com/user-attachments/assets/fc656046-cf26-4016-a2a0-2e8b3a4fab26" />
 
 
 
