@@ -30,16 +30,22 @@ Si, hay veces que la ia da por echo que algunas cosas ya estan echas y le tienes
 
 Para que no de respuestas tan generales lo que hago es ir poco a poco para asi ir mas detalladamente a cada problema y poder solucionar el error rapido.
 
+## Si tuvieras que explicar este tema a un compañero que no entiende nada de códecs, ¿cómo usarías la IA para ayudarte a preparar una explicación sencilla?
+
+Pues le diria a lA que me ayude a hacer una mini presentacion del tema que no entiende en este caso seria códices para yo ver lo importante y asi poder comentarle esos temas.
+
+## ¿Qué parte del contenido generado por la IA usarías en un proyecto real (por ejemplo, configurar Jellyfin)? ¿Por qué?
+
+Por ejemplo en nuestro pproyecytto lo acabamos de usar para que nos haga los insters a la base de datos de 160 alumnos con nombres y correos unicos basados todos en Harry Potter para no tener problemas y asi parecer que esta vivo cosa que si tuvieramos que hacer a mano tardariamops mucho o incluso habrie recursion de nombres y de esta manera lo evitamos y se hace rapido.
+
+## ¿Qué aprendiste sobre tu propio proceso de aprendizaje al usar la IA en esta tarea?
+
+No aprendi mucho porque eran cosas que ya hacia anteriormente.
+
+## ¿Crees que usar la IA te hizo aprender más, menos o de forma diferente? Justifica tu respuesta.
+
+Usar la IA me ha ayudado mas a aprender porque es una manera rapida y simple y como hay mas de una IA si dudas de una puedes preguntarle a otra o buscar la informacion para ser mas estrictos.
+
 ## 
-
-
-
-
-
-
-
-
-
-
 
 
