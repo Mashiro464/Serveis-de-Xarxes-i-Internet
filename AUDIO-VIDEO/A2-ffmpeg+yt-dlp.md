@@ -139,9 +139,8 @@ Una vez se finalizen los comandos se comprueba que todo esta en su lugar
 <img width="591" height="114" alt="image" src="https://github.com/user-attachments/assets/1a7a295c-2dd0-49e9-b9e3-21804e3899ed" />
 
 
-## Convesion y Procesamiento con FFMPEG
+## Trancodificacion de Video
 
-Ahora que tenemos el archivo `rick_video.webm` voy a convertirlo a otro formato y extraer el audio
 
 ### Convertir a MKV ussando codec H.264
 
@@ -161,6 +160,50 @@ ffmpeg -i video_final.mp4 -vcodec libx265 video_265.mkv
 <img width="1006" height="777" alt="image" src="https://github.com/user-attachments/assets/b5a321b0-cfc2-49b4-b421-77c1e6066fd0" />
 
 - Diferencia técnica: El H.265 es mas eficiente que ell H.264. El archivo de H.265 suele ser de menor tamaño pero tendra la misma calidad visual
+
+#### Comprobacion 
+
+Aqui se me olvido hacerlo por eso es la misma captura que abajo
+
+<img width="623" height="82" alt="image" src="https://github.com/user-attachments/assets/54d39b65-a69c-4622-903b-abff2992f1e6" />
+
+
+## Modificación de Canales de Audio
+
+### Audio en MP3
+
+Aqui usamos `copy` para el video y solo cambiamos el formato del audio
+
+```Bash
+ffmpeg -i video_final.mp4 -vcodec copy -acodec mp3 h264_mp3.mkv
+```
+
+<img width="1000" height="762" alt="image" src="https://github.com/user-attachments/assets/71f66e15-bc53-49a9-9b27-d717e7be64f3" />
+
+
+### Audion en AAC
+
+```Bash
+ffmpeg -i video_final.mp4 -vcodec copy -acodec aac h264_aac.mkv
+```
+
+<img width="1003" height="775" alt="image" src="https://github.com/user-attachments/assets/49922fc9-dd59-4cfd-8665-6f244dc0a926" />
+
+
+### Audio en Vorbis
+
+```Bash
+ffmpeg -i video_final.mp4 -vcodec copy -acodec libvorbis h264_vorbis.mkv
+```
+
+<img width="1009" height="775" alt="image" src="https://github.com/user-attachments/assets/c8dd15e4-8f94-473b-abb8-fb99402a3c93" />
+
+#### Compbrobacion
+
+<img width="623" height="82" alt="image" src="https://github.com/user-attachments/assets/4ea19b33-a3ec-43d7-a363-0219431af905" />
+
+
+
 
 
 
