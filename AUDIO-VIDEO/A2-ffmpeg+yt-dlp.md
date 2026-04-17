@@ -96,8 +96,7 @@ sudo chmod a+rx /usr/local/bin/yt-dlp
 ```
 <img width="884" height="783" alt="image" src="https://github.com/user-attachments/assets/63775b80-ce33-4e8a-836a-17a70e03842c" />
 
-
-## Paso 1 Ver formatos disponibles
+## Ver formatos disponibles
 
 Antes de descargar siempre es bueno saber que opciones ofrece el servidor
 
@@ -106,6 +105,35 @@ yt-dlp -F https://www.youtube.com/watch?v=Aq5WXmQQooo
 ```
 
 <img width="1846" height="655" alt="image" src="https://github.com/user-attachments/assets/fc656046-cf26-4016-a2a0-2e8b3a4fab26" />
+
+## Descargar el video
+
+Descargar el cideo con la mejor calidad de video y audio combinados
+
+```Bash
+yt-dlp -f "bv+ba/b" https://www.youtube.com/watch?v=Aq5WXmQQooo -o "rick_video.mp4"
+```
+
+<img width="906" height="279" alt="image" src="https://github.com/user-attachments/assets/6c17ca50-c5a6-4335-9c93-fea50d910c30" />
+
+## Convesion y Procesamiento con FFMPEG
+
+Ahora que tenemos el archivo `rick_video.webm` voy a convertirlo a otro formato y extraer el audio
+
+### Convertir a MKV ussando codec H.265
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
