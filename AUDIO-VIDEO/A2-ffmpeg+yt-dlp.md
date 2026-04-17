@@ -202,17 +202,44 @@ ffmpeg -i video_final.mp4 -vcodec copy -acodec libvorbis h264_vorbis.mkv
 
 <img width="623" height="82" alt="image" src="https://github.com/user-attachments/assets/4ea19b33-a3ec-43d7-a363-0219431af905" />
 
+## Ajuste de Bitrate
+
+Aqui voy a forzar la calidad de 2.5 Mbps para el video y 192 kbps para el audio
+
+```Bash
+ffmpeg -i video_final.mp4 -b:v 2500k -b:a 192k video_bitrate.mp4
+```
+
+<img width="1009" height="774" alt="image" src="https://github.com/user-attachments/assets/36bf296d-ec8e-42fb-acf8-1084467c5b38" />
+
+## Recortes de Fragmentos
+
+Voy a recortar el video de los segundos 5 al 8
+
+### Usando -t 3
+
+aqui dices donde quieres empezar a hacer el recorte y dices cuanto ha de durar
+
+```Bash
+ffmpeg -i video_final.mp4 -ss 5 -t 3 video_recorte_v1.mp4
+```
+
+<img width="1012" height="578" alt="image" src="https://github.com/user-attachments/assets/7280f0e0-a43f-47e9-b13c-eb0734d9b3d2" />
 
 
+### Usando - to 8
 
+Aqui decimos donde queires que empieze y donde tiene que terminar
 
+```Bash
+ffmpeg -i video_final.mp4 -ss 00:00:05 -to 00:00:08 video_recorte_v2.mp4
+```
 
+<img width="1008" height="580" alt="image" src="https://github.com/user-attachments/assets/8d51726c-9c22-4bdf-ab21-93d17856e24e" />
 
+#### Archivos creados
 
-
-
-
-
+<img width="692" height="102" alt="image" src="https://github.com/user-attachments/assets/96eb5e28-e9d0-4ae4-b2a4-3b1320d186dd" />
 
 
 
