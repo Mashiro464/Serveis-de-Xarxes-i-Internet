@@ -58,10 +58,17 @@ Aqui se puede ver como esta en la maquina virtual y en el navegador de mi ordena
 
 ### Demostracion Movil
 
-No se como mostrar esto la verdad pero tengo un video 
+El video esta en la carpeta
 
 
+## Comparativa Jellyfin contra Plex
 
+| Característica | Jellyfin | Plex |
+| :--- | :--- | :--- |
+| **Licencia** | Código Abierto (Open Source) | Propietario |
+| **Coste** | 100% Gratis | Freemium (Plex Pass necesario) |
+| **Privacidad** | Alta (Datos locales) | Recopila datos de uso |
+| **Transcodificación** | Gratuita por hardware | Requiere pago (Plex Pass) |
 
 
 
